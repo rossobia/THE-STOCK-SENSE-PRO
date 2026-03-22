@@ -257,6 +257,38 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes expandDown { from { opacity: 0; height: 0; } to { opacity: 1; height: 500px; } }
+
+/* --- MOBİL UYUMLULUK (RESPONSIVE) YAMASI --- */
+        @media (max-width: 900px) {
+            /* 1. Yan barları tamamen gizle (Senin fikrin çok doğruydu!) */
+            .sidebar { display: none !important; }
+            
+            /* 2. Dış çerçevenin iç boşluklarını daralt ve sığdır */
+            .page-wrapper { padding: 0 10px; height: 100vh; }
+            .container { padding: 1.5rem 1rem; }
+
+            /* 3. Arama çubuğu ve butonu yan yana değil, ALT ALTA diz */
+            .search-box { flex-direction: column; gap: 10px; margin-bottom: 15px; }
+            
+            /* 4. Buton ve çubuk ekrandan taşmasın diye %100 genişlik ver */
+            .search-box input[type="text"], 
+            .search-box button { 
+                width: 100%; 
+                box-sizing: border-box; 
+                margin: 0;
+            }
+
+            /* 5. Başlık ve logoyu mobilde ekrana sığacak kadar zarifleştir */
+            h1 { font-size: 1.6rem; }
+            .logo-the { font-size: 0.8rem; }
+            .main-logo-icon { width: 35px; height: 35px; }
+            
+            /* 6. Piyasa seçici butonlarını küçült */
+            .market-selector label { font-size: 0.75rem; padding: 6px 10px; }
+            
+            /* 7. Grafik boyunu mobilde biraz kısalt */
+            #chartContainer { height: 350px; width: 100%; }
+        }
     </style>
 </head>
 <body>
