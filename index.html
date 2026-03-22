@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Stock Sense Pro | AI Finans Terminali</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top left, #0d1117, #161b22, #000000); 
+            color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden;
+        }
+        
+        .page-wrapper {
+            display: flex; justify-content: center; align-items: stretch; gap: 30px; 
+            width: 100%; max-width: 1600px; padding: 0 20px; height: 95vh;
+        }
+
+        .sidebar {
+            width: 380px; height: 100%; background: rgba(13, 17, 23, 0.5); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; 
+            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 1400px) { .sidebar { display: none; } }
+
+        .container { 
+            background: rgba(13, 17, 23, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 2.5rem; border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7); text-align: center; max-width: 600px; width: 100%; 
+            height: 100%; display: flex; flex-direction: column; position: relative; transition: all 0.3s ease;
+            border: 1px solid #00f2fe;
+            isolation: isolate; 
+        }
+
+        .container::after {
+            content: ''; position: absolute; top: -5px; right: -5px; bottom: -5px; left: -5px; 
+            background: linear-gradient(135deg, #00f2fe 0%, #ff00ff 50%, #00f2fe 100%); 
+            z-index: -1; border-radius: 28px; filter: blur(30px); opacity: 0.2; 
+            animation: permanentGlowGlow 5s infinite; transition: opacity 0.3s ease;
+        }
+
+        @keyframes permanentGlowGlow {
+            0%, 100% { filter: blur(30px); opacity: 0.15; }
+            50% { filter: blur(40px); opacity: 0.25; }
+        }
+
+        .header-logo-container {
+            display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px;
+        }
+
+        .main-logo-icon {
+            width: 45px; height: 45px;
+        }
+
+        h1 { color: #00f2fe; margin: 0; font-size: 2.2rem; text-shadow: 0 0 15px rgba(0, 242, 254, 0.4); display: flex; align-items: center; gap: 8px;}
+        .logo-the { font-weight: 300; opacity: 0.7; font-size: 1rem; text-shadow: none; align-self: flex-start;}
+        .logo-stock { font-weight: 300; opacity: 0.9; }
+        .logo-sense { font-weight: 600; }
+        .logo-pro { color: #ff00ff; font-weight: 600; text-shadow: 0 0 10px rgba(255, 0, 255, 0.4); margin-left: 3px; }
+
+        p.subtitle { color: #8b949e; font-size: 0.95rem; margin-bottom: 20px; font-weight: 300; }
+        
+        .market-selector { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;}
+        .market-selector input[type="radio"] { display: none; }
+        
+        .market-selector label {
+            background: rgba(0, 0, 0, 0.4); padding: 8px 16px; border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer;
+            font-size: 0.85rem; transition: all 0.3s ease; color: #8b949e; font-weight: 600;
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .market-selector label[for="marketBist"]:hover {
+            border-color: #fff; background: rgba(255, 255, 255, 0.1); color: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); transform: translateY(-2px);
+        }
+        .market-selector input#marketBist:checked + label[for="marketBist"] {
+            background: rgba(255, 255, 255, 0.1); border-color: #fff; color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .market-selector label[for="marketGlobal"]:hover {
+            border-color: #00f2fe; background: rgba(0, 242, 254, 0.1); color: white;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); transform: translateY(-2px);
+        }
+        .market-selector input#marketGlobal:checked + label[for="marketGlobal"] {
+            background: rgba(0, 242, 254, 0.1); border-color: #00f2fe; color: #00f2fe;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .market-selector label[for="marketCrypto"]:hover {
+            border-color: #ffeb3b; background: rgba(255, 235, 59, 0.1); color: white;
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.3); transform: translateY(-2px);
+        }
+        .market-selector input#marketCrypto:checked + label[for="marketCrypto"] {
+            background: rgba(255, 235, 59, 0.1); border-color: #ffeb3b; color: #ffeb3b;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.2);
+        }
+
+        .market-selector label[for="marketForex"]:hover {
+            border-color: #4caf50; background: rgba(76, 175, 80, 0.1); color: white;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3); transform: translateY(-2px);
+        }
+        .market-selector input#marketForex:checked + label[for="marketForex"] {
+            background: rgba(76, 175, 80, 0.1); border-color: #4caf50; color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+        }
+
+        .search-box { display: flex; gap: 12px; margin-bottom: 20px; }
+
+        input[type="text"] { 
+            padding: 16px; font-size: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; 
+            background-color: rgba(0, 0, 0, 0.4); color: white; flex-grow: 1; outline: none; 
+            text-transform: uppercase; font-family: 'Poppins', sans-serif; letter-spacing: 2px; transition: all 0.3s ease;
+        }
+        input[type="text"]:focus { border-color: #00f2fe; box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); background-color: rgba(0, 0, 0, 0.6);}
+        input[type="text"]::placeholder { color: #555; font-size: 0.8rem; letter-spacing: normal; text-transform: none;}
+
+        button { 
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 15px 25px; 
+            font-size: 0.95rem; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 1px; min-width: 180px;
+        }
+        button:hover { box-shadow: 0 8px 25px rgba(0, 242, 254, 0.6); transform: translateY(-2px); }
+        button:disabled { background: #333; cursor: not-allowed; transform: none; box-shadow: none; color: #666;}
+        
+        /* GÜNCELLEME: position: relative eklendi ki kaydırma butonu tam mesafeyi bulabilsin */
+        .content-scroll-area { overflow-y: auto; padding-right: 15px; margin-top: 5px; text-align: left; flex-grow: 1; display: flex; flex-direction: column; position: relative;}
+        .content-scroll-area::-webkit-scrollbar { width: 6px; }
+        .content-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 3px;}
+        .content-scroll-area::-webkit-scrollbar-thumb { background: #00f2fe; border-radius: 3px; }
+
+        #homeNewsArea {
+            width: 100%; flex-grow: 1; height: 100%; min-height: 400px; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08); animation: fadeIn 0.5s;
+            display: flex; flex-direction: column; background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .home-news-title {
+            padding: 15px 20px; background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin: 0;
+            color: #00f2fe; font-weight: 600; font-size: 1.05rem;
+            display: flex; align-items: center; gap: 8px; z-index: 2; position: relative;
+        }
+
+        #chartContainer {
+            width: calc(100% - 60px); height: 500px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 0 auto 15px auto; display: none; animation: expandDown 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            flex-shrink: 0;
+        }
+
+        .scroll-down-hint {
+            display: none; text-align: center; margin: 15px auto 25px auto; 
+            color: #4facfe; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            padding: 10px 18px; border-radius: 20px; background: rgba(79, 172, 254, 0.08);
+            border: 1px solid rgba(79, 172, 254, 0.2); transition: all 0.3s;
+            animation: fadeIn 1s; flex-shrink: 0; width: fit-content; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .scroll-down-hint:hover { background: rgba(79, 172, 254, 0.15); transform: translateY(-2px); border-color: rgba(79, 172, 254, 0.4); box-shadow: 0 0 20px rgba(79, 172, 254, 0.2); }
+
+        #licenseFallback {
+            display: none; margin-bottom: 20px; background: rgba(255, 171, 0, 0.1); 
+            border: 1px solid rgba(255, 171, 0, 0.3); padding: 15px; border-radius: 12px; 
+            text-align: left; border-left: 5px solid #ffab00; animation: fadeIn 0.5s;
+        }
+        #licenseFallback p { margin: 0 0 8px 0; font-size: 0.85rem;}
+        
+        .fallback-btn {
+            display: table; margin: 15px auto 0; 
+            background: #2b3139; color: #00f2fe; padding: 7px 12px; 
+            border-radius: 8px; text-decoration: none; font-size: 0.8rem; font-weight: 600; 
+            border: 1px solid rgba(0, 242, 254, 0.3); transition: all 0.2s;
+            width: auto;
+        }
+        .fallback-btn:hover { background: #00f2fe; color: #000; }
+
+        #result { 
+            padding: 20px; border-radius: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.05);
+            line-height: 1.7; font-size: 0.95rem; border-left: 5px solid #00f2fe; display: none; animation: fadeIn 0.5s; 
+            margin-bottom: 20px; color: #c9d1d9; flex-shrink: 0;
+        }
+        
+        .analysis-header {
+            font-size: 1.2rem; font-weight: 600; background: linear-gradient(90deg, #ffffff 0%, #00f2fe 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px; text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        #newsContainer { display: none; margin-bottom: 20px; animation: fadeIn 0.7s; flex-shrink: 0;}
+        .news-header { color: #00f2fe; font-size: 1rem; font-weight: 600; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 5px;}
+        .news-item { background: rgba(255, 255, 255, 0.02); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid #4facfe; transition: all 0.2s;}
+        
+        .news-item:hover {
+            border: 2px solid transparent; 
+            border-image: linear-gradient(90deg, #4facfe, #ff00ff) 1;
+            background: rgba(13, 17, 23, 0.8);
+            transform: translateX(3px);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+        }
+        .news-item:hover .news-title {
+            color: white; 
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        .news-item:hover .news-source {
+            color: #a0aec0; 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .news-title { font-size: 0.9rem; color: #e2e8f0; margin: 0 0 5px 0; font-weight: 400;}
+        .news-source { font-size: 0.7rem; color: #4facfe; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+        .news-link { color: inherit; text-decoration: none; display: block;}
+
+        .disclaimer { font-size: 0.7rem; color: #718096; text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); display: none; flex-shrink: 0;}
+        
+        .loader-wrapper {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 17, 23, 0.85); border-radius: 24px; z-index: 10;
+            justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(5px);
+        }
+
+        .loading-borsa-animation {
+            width: 150px; height: 100px; position: relative; overflow: hidden;
+            display: flex; justify-content: center; align-items: flex-end; gap: 8px;
+        }
+
+        .borsa-bar {
+            width: 12px; border-radius: 2px;
+            background: linear-gradient(180deg, #00f2fe 0%, #ff00ff 100%);
+            animation: borsaBarsGrow 1.5s infinite ease-in-out;
+            filter: blur(2.5px); opacity: 0.8;
+        }
+
+        .borsa-bar:nth-child(1) { height: 30px; animation-delay: -1.2s; }
+        .borsa-bar:nth-child(2) { height: 60px; animation-delay: -0.9s; }
+        .borsa-bar:nth-child(3) { height: 90px; animation-delay: -0.6s; }
+        .borsa-bar:nth-child(4) { height: 50px; animation-delay: -0.3s; }
+        .borsa-bar:nth-child(5) { height: 80px; animation-delay: 0s; }
+
+        @keyframes borsaBarsGrow {
+            0%, 100% { height: 15px; opacity: 0.5; }
+            50% { height: 90px; opacity: 1; }
+        }
+
+        .borsa-trend-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            fill: none; stroke-linecap: round; stroke-width: 4;
+            animation: borsaTrendPulse 3s infinite;
+        }
+
+        @keyframes borsaTrendPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes expandDown { from { opacity: 0; height: 0; } to { opacity: 1; height: 500px; } }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        
+        <div class="sidebar">
+            <div class="tradingview-widget-container" style="height: 100%; width: 100%;">
+              <div class="tradingview-widget-container__widget" style="height: 100%; width: 100%;"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+              "width": "100%",
+              "height": "100%",
+              "symbolsGroups": [
+                {
+                  "name": "📊 KÜRESEL ENDEKSLER",
+                  "originalName": "Indices",
+                  "symbols": [
+                    { "name": "FOREXCOM:SPXUSD", "displayName": "S&P 500" },
+                    { "name": "FOREXCOM:NSXUSD", "displayName": "Nasdaq 100" },
+                    { "name": "FOREXCOM:DJI", "displayName": "Dow Jones" }
+                  ]
+                },
+                {
+                  "name": "🛢️ EMTİA VE DÖVİZ",
+                  "originalName": "Commodities",
+                  "symbols": [
+                    { "name": "OANDA:XAUUSD", "displayName": "Altın (Ons)" },
+                    { "name": "OANDA:XAGUSD", "displayName": "Gümüş" },
+                    { "name": "TVC:USOIL", "displayName": "Ham Petrol (WTI)" },
+                    { "name": "TVC:UKOIL", "displayName": "Brent Petrol" },
+                    { "name": "FX:USDTRY", "displayName": "Dolar / TL" },
+                    { "name": "FX:EURTRY", "displayName": "Euro / TL" }
+                  ]
+                },
+                {
+                  "name": "🪙 KRİPTO PİYASASI",
+                  "originalName": "Crypto",
+                  "symbols": [
+                    { "name": "BINANCE:BTCUSDT", "displayName": "Bitcoin" },
+                    { "name": "BINANCE:ETHUSDT", "displayName": "Ethereum" },
+                    { "name": "BINANCE:SOLUSDT", "displayName": "Solana" },
+                    { "name": "BINANCE:BNBUSDT", "displayName": "BNB" },
+                    { "name": "BINANCE:XRPUSDT", "displayName": "Ripple" },
+                    { "name": "BINANCE:AVAXUSDT", "displayName": "Avalanche" }
+                  ]
+                }
+              ],
+              "showSymbolLogo": true,
+              "isTransparent": true,
+              "colorTheme": "dark",
+              "locale": "tr"
+            }
+              </script>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="loaderWrapper" class="loader-wrapper">
+                
+                <div class="loading-borsa-animation">
+                    <div class="borsa-bar"></div>
+                    <div class="borsa-bar"></div>
+                    <div class="borsa-bar"></div>
+                    <div class="borsa-bar"></div>
+                    <div class="borsa-bar"></div>
+                    <svg class="borsa-trend-line" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glowLogobor">
+                                <feGaussianBlur stdDeviation="3.5" result="coloredBlurLogobor"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlurLogobor"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <path d="M 5,95 C 10,85 15,65 25,60 35,55 45,75 55,65 L 75,35" stroke="#ff00ff" filter="url(#glowLogobor)" />
+                        <path d="M 75,35 L 90,15" stroke="#00f2fe" filter="url(#glowLogobor)" />
+                        <path d="M 85,15 L 95,15 L 95,25" fill="none" stroke="#00f2fe" filter="url(#glowLogobor)" />
+                    </svg>
+                </div>
+                
+                <div id="loaderText" class="loader-text">AI Terminali Bağlanıyor...</div>
+            </div>
+
+            <div class="header-logo-container">
+                <svg class="main-logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="glowCyan">
+                            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        <filter id="glowMagenta">
+                            <feGaussianBlur stdDeviation="3.5" result="coloredBlurMagenta"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlurMagenta"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <rect x="25" y="55" width="10" height="25" fill="#00f2fe" rx="2" filter="url(#glowCyan)"/>
+                    <rect x="40" y="45" width="10" height="35" fill="#00f2fe" rx="2" filter="url(#glowCyan)"/>
+                    <rect x="55" y="35" width="10" height="45" fill="#00f2fe" rx="2" filter="url(#glowCyan)"/>
+                    <path d="M75 25 L85 25 L85 35 M85 25 L50 60 L30 60 L20 70" stroke="#00f2fe" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#glowCyan)"/>
+                    <text x="80" y="20" font-family="Poppins, sans-serif" font-weight="600" font-size="20" fill="#ff00ff" text-anchor="middle" filter="url(#glowMagenta)">+</text>
+                    <text x="15" y="85" font-family="Poppins, sans-serif" font-weight="600" font-size="26" fill="#ff00ff" text-anchor="middle" filter="url(#glowMagenta)">-</text>
+                </svg>
+                <h1>
+                  <span class="logo-the">The</span> <span class="logo-stock">Stock</span><span class="logo-sense">Sense</span><span class="logo-pro">PRO</span>
+                </h1>
+            </div>
+            
+            <p class="subtitle">Canlı Grafik ve Yapay Zeka Analiz Terminali</p>
+            
+            <div class="market-selector">
+                <input type="radio" id="marketGlobal" name="market" value="GLOBAL" checked>
+                <label for="marketGlobal">🌎 Küresel</label>
+
+                <input type="radio" id="marketBist" name="market" value="BIST">
+                <label for="marketBist">🏛️ BİST</label>
+
+                <input type="radio" id="marketCrypto" name="market" value="CRYPTO">
+                <label for="marketCrypto">🪙 Kripto</label>
+
+                <input type="radio" id="marketForex" name="market" value="FOREX">
+                <label for="marketForex">💵 Döviz</label>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="ticker" placeholder="Hisse adını yazın (Örn: APPLE, TESLA)" autocomplete="off">
+                <button id="analyzeBtn" onclick="analyzeStock()">Terminali Başlat</button>
+            </div>
+            
+            <div class="content-scroll-area">
+                
+                <div id="homeNewsArea"></div>
+
+                <div id="licenseFallback">
+                    <p style="color: #ffab00;">ℹ️ <strong>Veri Lisans Kısıtlaması</strong></p>
+                    <p style="color: #c9d1d9;">Borsa İstanbul veya küresel veri sağlayıcılarının kuralları gereği bazı yerli hisse ve emtia grafikleri dış sitelerde engellenebilmektedir. İncelemek için aşağıdaki butona tıklayarak doğrudan TradingView'e gidebilirsiniz.</p>
+                    <a id="tvExternalLink" href="#" target="_blank" class="fallback-btn">TradingView'de Aç ↗</a>
+                </div>
+
+                <div id="scrollDownBtn" class="scroll-down-hint" onclick="document.querySelector('.content-scroll-area').scrollTo({top: document.getElementById('result').offsetTop - 20, behavior: 'smooth'})">
+                    ⬇️ Analiz Raporunu Oku
+                </div>
+
+                <div id="chartContainer"></div>
+                
+                <div id="result"></div>
+                <div id="newsContainer">
+                    <div class="news-header">📰 Kaynak Haberler</div>
+                    <div id="newsList"></div>
+                </div>
+                <div id="disclaimer" class="disclaimer">
+                    ⚠️ <strong>Yasal Uyarı (Eğitim Amaçlı):</strong> Bu uygulamadaki veriler, grafikler ve yapay zeka analizleri sadece finansal okuryazarlığı artırmak içindir. Kesinlikle yatırım tavsiyesi (AL-SAT-TUT) niteliği taşımaz.
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="tradingview-widget-container" style="height: 100%; width: 100%;">
+              <div class="tradingview-widget-container__widget" style="height: 100%; width: 100%;"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+              "width": "100%",
+              "height": "100%",
+              "symbolsGroups": [
+                {
+                  "name": "🌎 KÜRESEL TEKNOLOJİ",
+                  "originalName": "Tech",
+                  "symbols": [
+                    { "name": "NASDAQ:AAPL", "displayName": "Apple" },
+                    { "name": "NASDAQ:MSFT", "displayName": "Microsoft" },
+                    { "name": "NASDAQ:NVDA", "displayName": "NVIDIA" },
+                    { "name": "NASDAQ:GOOGL", "displayName": "Alphabet" },
+                    { "name": "NASDAQ:AMZN", "displayName": "Amazon" },
+                    { "name": "NASDAQ:META", "displayName": "Meta" },
+                    { "name": "NYSE:BRK.B", "displayName": "Berkshire" },
+                    { "name": "NYSE:LLY", "displayName": "Eli Lilly" },
+                    { "name": "NYSE:TSM", "displayName": "TSMC" },
+                    { "name": "NASDAQ:AVGO", "displayName": "Broadcom" },
+                    { "name": "NASDAQ:TSLA", "displayName": "Tesla" },
+                    { "name": "NYSE:V", "displayName": "Visa" },
+                    { "name": "NYSE:JPM", "displayName": "JPMorgan" },
+                    { "name": "NYSE:WMT", "displayName": "Walmart" },
+                    { "name": "NYSE:UNH", "displayName": "UnitedHealth" },
+                    { "name": "NYSE:MA", "displayName": "Mastercard" },
+                    { "name": "NYSE:NVO", "displayName": "Novo Nordisk" },
+                    { "name": "NYSE:PG", "displayName": "Procter & Gamble" },
+                    { "name": "NYSE:JNJ", "displayName": "J&J" },
+                    { "name": "NASDAQ:ASML", "displayName": "ASML Holding" }
+                  ]
+                }
+              ],
+              "showSymbolLogo": true,
+              "isTransparent": true,
+              "colorTheme": "dark",
+              "locale": "tr"
+            }
+              </script>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+        const API_URL = "https://stock-sense-api.furkan-yi-itgs2011.workers.dev";
+
+        function normalizeTurkish(text) {
+            return text.replace(/İ/g, 'I')
+                       .replace(/ı/g, 'I')
+                       .replace(/Ş/g, 'S')
+                       .replace(/ş/g, 'S')
+                       .replace(/Ğ/g, 'G')
+                       .replace(/ğ/g, 'G')
+                       .replace(/Ü/g, 'U')
+                       .replace(/ü/g, 'U')
+                       .replace(/Ö/g, 'O')
+                       .replace(/ö/g, 'O')
+                       .replace(/Ç/g, 'C')
+                       .replace(/ç/g, 'C')
+                       .toUpperCase();
+        }
+
+        const aliasMap = {
+            "DOLAR": "USDTRY", "DOLAR/TL": "USDTRY", "USD": "USDTRY",
+            "EURO": "EURTRY", "AVRO": "EURTRY", "EUR": "EURTRY",
+            "STERLIN": "GBPTRY", "INGILIZ STERLINI": "GBPTRY",
+            "ALTIN": "XAUUSD", "ONS ALTIN": "XAUUSD", "GUMUS": "XAGUSD",
+            "THY": "THYAO", "TURK HAVA YOLLARI": "THYAO",
+            "TUPRAS": "TUPRS", "SISE": "SISE", "SISECAM": "SISE",
+            "GARANTI": "GARAN", "GARANTI BANKASI": "GARAN",
+            "YAPI KREDI": "YKBNK", "AKBANK": "AKBNK",
+            "IS BANKASI": "ISCTR", "ISCTR": "ISCTR",
+            "KOC": "KCHOL", "KOC HOLDING": "KCHOL",
+            "SABANCI": "SAHOL", "SABANCI HOLDING": "SAHOL",
+            "ASELSAN": "ASELS", "EREGLI": "EREGL",
+            "BIM": "BIMAS", "PEGASUS": "PGSUS",
+            "APPLE": "AAPL", "TESLA": "TSLA", "GOOGLE": "GOOGL", "ALPHABET": "GOOGL",
+            "MICROSOFT": "MSFT", "AMAZON": "AMZN", "FACEBOOK": "META", "NVIDIA": "NVDA",
+            "NETFLIX": "NFLX",
+            "BITCOIN": "BTC", "ETHEREUM": "ETH", "RIPPLE": "XRP",
+            "DOGE": "DOGE", "DOGECOIN": "DOGE", "AVALANCHE": "AVAX", "SHIBA": "SHIB"
+        };
+
+        function loadMarketNews(market) {
+            const container = document.getElementById('homeNewsArea');
+            container.innerHTML = ''; 
+            
+            let marketName = "Piyasa";
+            let marketIcon = "📰";
+            
+            if (market === 'BIST') { marketName = "Genel Piyasa"; marketIcon = "🏛️"; }
+            else if (market === 'GLOBAL') { marketName = "Küresel Piyasa"; marketIcon = "🌎"; }
+            else if (market === 'CRYPTO') { marketName = "Kripto Para"; marketIcon = "🪙"; }
+            else if (market === 'FOREX') { marketName = "Döviz ve Emtia"; marketIcon = "💵"; }
+
+            const customHeader = document.createElement('div');
+            customHeader.className = 'home-news-title';
+            customHeader.innerHTML = `${marketIcon} ${marketName} Canlı Haber Akışı`;
+            container.appendChild(customHeader);
+
+            let config = {
+                "colorTheme": "dark",
+                "isTransparent": true,
+                "displayMode": "regular", 
+                "width": "100%",
+                "height": "100%",
+                "locale": "tr"
+            };
+
+            if (market === 'BIST') {
+                config.feedMode = "all";
+            } else if (market === 'GLOBAL') {
+                config.feedMode = "market";
+                config.market = "stock";
+            } else if (market === 'CRYPTO') {
+                config.feedMode = "market";
+                config.market = "crypto";
+            } else if (market === 'FOREX') {
+                config.feedMode = "market";
+                config.market = "forex";
+            }
+
+            const iframe = document.createElement('iframe');
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.flexGrow = '1';
+            iframe.style.border = 'none';
+            
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html style="height: 100%;">
+                <head>
+                    <meta charset="utf-8">
+                    <style>
+                        body { margin: 0; padding: 0; overflow: hidden; background-color: transparent; height: 100%; }
+                        .widget-wrapper {
+                            position: relative;
+                            top: -55px; 
+                            height: calc(100% + 55px); 
+                        }
+                        .tradingview-widget-container, .tradingview-widget-container__widget { height: 100% !important; }
+                        base target="_blank">
+                    </style>
+                </head>
+                <body style="height: 100%;">
+                    <div class="widget-wrapper">
+                        <div class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                            ${JSON.stringify(config)}
+                            <\/script>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            iframe.srcdoc = htmlContent;
+            container.appendChild(iframe);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadMarketNews('GLOBAL');
+        });
+
+        async function analyzeStock() {
+            const tickerInput = document.getElementById('ticker');
+            let rawInput = tickerInput.value.trim();
+
+            if (!rawInput) {
+                alert("Lütfen bir arama terimi girin!");
+                return;
+            }
+
+            let normalizedInput = normalizeTurkish(rawInput);
+            let mappedTicker = aliasMap[normalizedInput] ? aliasMap[normalizedInput] : normalizedInput;
+            let cleanTicker = mappedTicker.replace('.IS', '').replace('BIST:', '').replace('BINANCE:', '').replace('-USD', '').replace('=X', '');
+            
+            const market = document.querySelector('input[name="market"]:checked').value;
+            const resultDiv = document.getElementById('result');
+            const newsContainer = document.getElementById('newsContainer');
+            const newsList = document.getElementById('newsList');
+            const disclaimer = document.getElementById('disclaimer');
+            const chartContainer = document.getElementById('chartContainer');
+            const licenseFallback = document.getElementById('licenseFallback');
+            const homeNewsArea = document.getElementById('homeNewsArea');
+            const scrollDownBtn = document.getElementById('scrollDownBtn');
+            const tvExternalLink = document.getElementById('tvExternalLink');
+            const loaderWrapper = document.getElementById('loaderWrapper');
+            const loaderText = document.getElementById('loaderText');
+            const btn = document.getElementById('analyzeBtn');
+
+            let chartTicker = cleanTicker; 
+            let apiTicker = cleanTicker;   
+
+            if (market === "BIST") {
+                apiTicker = cleanTicker + ".IS";
+                chartTicker = "BIST:" + cleanTicker;
+                
+                tvExternalLink.href = `https://tr.tradingview.com/chart/?symbol=${chartTicker}`;
+                licenseFallback.style.display = 'block';
+                chartContainer.style.display = 'none'; 
+            } else if (market === "CRYPTO") {
+                apiTicker = cleanTicker + "-USD"; 
+                chartTicker = "BINANCE:" + cleanTicker + "USDT"; 
+                licenseFallback.style.display = 'none';
+                chartContainer.style.display = 'block';
+            } else if (market === "FOREX") {
+                apiTicker = cleanTicker + "=X"; 
+                chartTicker = "FX:" + cleanTicker; 
+                
+                tvExternalLink.href = `https://tr.tradingview.com/chart/?symbol=${chartTicker}`;
+                licenseFallback.style.display = 'block';
+                chartContainer.style.display = 'none'; 
+            } else {
+                apiTicker = cleanTicker;
+                chartTicker = cleanTicker;
+                licenseFallback.style.display = 'none';
+                chartContainer.style.display = 'block';
+            }
+
+            homeNewsArea.style.display = 'none';
+            resultDiv.style.display = 'none';
+            newsContainer.style.display = 'none';
+            disclaimer.style.display = 'none';
+            scrollDownBtn.style.display = 'none';
+            chartContainer.innerHTML = ''; 
+            
+            loaderText.innerText = `${cleanTicker} Analiz Ediliyor... Lütfen Bekleyin ⏳`;
+            loaderWrapper.style.display = 'flex'; 
+            btn.disabled = true;
+            btn.innerText = "Yükleniyor...";
+
+            try {
+                if (chartContainer.style.display === 'block') {
+                    new TradingView.widget({
+                        "container_id": "chartContainer",
+                        "symbol": chartTicker, 
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "tr",
+                        "toolbar_bg": "#0d1117",
+                        "enable_publishing": false,
+                        "hide_top_toolbar": false,
+                        "save_image": false,
+                        "height": 500, 
+                        "width": "100%",
+                        "studies": [ "RSI@tv-basicstudies" ], 
+                    });
+                }
+
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ ticker: apiTicker })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="analysis-header">🧠 Eğitim & Analiz Raporu</div>
+                        ${data.result.replace(/\n/g, '<br>')}
+                    `;
+                    resultDiv.style.borderLeftColor = '#00f2fe'; 
+                    resultDiv.style.display = 'block';
+                    
+                    if (chartContainer.style.display === 'block') {
+                        scrollDownBtn.style.display = 'block';
+                    }
+
+                    if (data.news && data.news.length > 0) {
+                        newsList.innerHTML = ""; 
+                        data.news.forEach(news => {
+                            newsList.innerHTML += `
+                                <a href="${news.link}" target="_blank" class="news-link">
+                                    <div class="news-item">
+                                        <p class="news-title">${news.title}</p>
+                                        <span class="news-source">Kaynak: ${news.publisher}</span>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                        newsContainer.style.display = 'block';
+                    }
+                    disclaimer.style.display = 'block';
+
+                } else {
+                    let errorMessage = data.error || 'Bilinmeyen bir hata oluştu.';
+                    if (errorMessage.toLowerCase().includes("quota") || errorMessage.toLowerCase().includes("exceeded") || errorMessage.toLowerCase().includes("429")) {
+                        errorMessage = "Yapay zeka analiz motorunun <b>günlük ücretsiz kullanım kotası</b> dolmuş olabilir. Lütfen bir süre veya yarına kadar bekleyip tekrar deneyin ⏳";
+                    }
+                    resultDiv.innerHTML = `<div class="analysis-header" style="background: #ffab00; -webkit-text-fill-color: transparent;">⚠️ API Yoğunluğu / Kota Sınırı</div> <span style="color: #e2e8f0;">${errorMessage}</span>`;
+                    resultDiv.style.borderLeftColor = '#ffab00'; 
+                    resultDiv.style.display = 'block';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="analysis-header" style="background: #ff4757; -webkit-text-fill-color: transparent;">⚠️ Bağlantı Hatası</div> Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edin.`;
+                resultDiv.style.borderLeftColor = '#ff4757';
+                resultDiv.style.display = 'block';
+            } finally {
+                loaderWrapper.style.display = 'none';
+                btn.disabled = false;
+                btn.innerText = "Terminali Başlat";
+            }
+        }
+
+        document.getElementById("ticker").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("analyzeBtn").click();
+            }
+        });
+
+        document.querySelectorAll('input[name="market"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const input = document.getElementById('ticker');
+                
+                input.value = ""; 
+                
+                document.getElementById('chartContainer').style.display = 'none';
+                document.getElementById('result').style.display = 'none';
+                document.getElementById('newsContainer').style.display = 'none';
+                document.getElementById('disclaimer').style.display = 'none';
+                document.getElementById('licenseFallback').style.display = 'none';
+                document.getElementById('scrollDownBtn').style.display = 'none';
+
+                document.getElementById('homeNewsArea').style.display = 'flex';
+                loadMarketNews(this.value);
+
+                if (this.value === 'BIST') input.placeholder = "Hisse adını yazın (Örn: THY, TÜPRAŞ)";
+                else if (this.value === 'GLOBAL') input.placeholder = "Hisse adını yazın (Örn: APPLE, TESLA)";
+                else if (this.value === 'CRYPTO') input.placeholder = "Kripto para adını yazın (Örn: BİTCOİN, ETH)";
+                else if (this.value === 'FOREX') input.placeholder = "Döviz / Emtia yazın (Örn: DOLAR, EURO, ALTIN)";
+            });
+        });
+    </script>
+</body>
+</html>
