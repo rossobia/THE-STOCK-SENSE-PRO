@@ -258,18 +258,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes expandDown { from { opacity: 0; height: 0; } to { opacity: 1; height: 500px; } }
 
-        
-        /* Sayfanın boy sınırını esnet ve aşağı kaydırmaya izin ver */
-    body, html { 
-        overflow-y: auto !important; 
-    }
-    
-    .page-wrapper { 
-        height: auto !important; 
-        min-height: 100vh; 
-        padding-bottom: 60px !important; 
-    }
-       
 /* --- MOBİL UYUMLULUK (RESPONSIVE) YAMASI --- */
         @media (max-width: 900px) {
             /* 1. Yan barları tamamen gizle (Senin fikrin çok doğruydu!) */
@@ -301,7 +289,6 @@
             /* 7. Grafik boyunu mobilde biraz kısalt */
             #chartContainer { height: 350px; width: 100%; }
         }
-
     </style>
 </head>
 <body>
@@ -461,7 +448,6 @@
                 </div>
                 <div id="disclaimer" class="disclaimer">
                     ⚠️ <strong>Yasal Uyarı (Eğitim Amaçlı):</strong> Bu uygulamadaki veriler, grafikler ve yapay zeka analizleri sadece finansal okuryazarlığı artırmak içindir. Kesinlikle yatırım tavsiyesi (AL-SAT-TUT) niteliği taşımaz.
-
                 </div>
             </div>
         </div>
