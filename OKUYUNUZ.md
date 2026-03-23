@@ -6,7 +6,7 @@ Yapay zeka destekli, gerçek zamanlı küresel borsa, kripto ve döviz analiz te
 
 Proje iki farklı sunucu altyapısında Sürekli Entegrasyon (CI/CD) ile canlıya alınmıştır. Cihazınıza veya ağ ayarlarınıza en uygun linkten projeyi test edebilirsiniz:
 
-* 🟢 **Ana Sunucu (GitHub Pages):** [Buraya 1. Adımda aldığın github.io linkini koy]
+* 🟢 **Ana Sunucu (GitHub Pages):** [https://rossobia.github.io/THE-STOCK-SENSE-PRO/]
 * 🔵 **Alternatif Sunucu (Cloudflare):** [https://the-stock-sense-pro.pages.dev]
 
 ## 🛠️ Kullanılan Teknolojiler ve Mimari
