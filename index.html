@@ -258,9 +258,18 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes expandDown { from { opacity: 0; height: 0; } to { opacity: 1; height: 500px; } }
 
-        /* En alt metne nefes aldırır ve kesilmeyi önler */
-    .container { padding-bottom: 50px !important; }
-
+        
+        /* Sayfanın boy sınırını esnet ve aşağı kaydırmaya izin ver */
+    body, html { 
+        overflow-y: auto !important; 
+    }
+    
+    .page-wrapper { 
+        height: auto !important; 
+        min-height: 100vh; 
+        padding-bottom: 60px !important; 
+    }
+       
 /* --- MOBİL UYUMLULUK (RESPONSIVE) YAMASI --- */
         @media (max-width: 900px) {
             /* 1. Yan barları tamamen gizle (Senin fikrin çok doğruydu!) */
