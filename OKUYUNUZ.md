@@ -10,7 +10,7 @@ Projenin ilk sürümü **Cloudflare Pages** (`.pages.dev` uzantısı) kullanıla
 Türkiye'deki bazı İnternet Servis Sağlayıcılarının (ISP) ve mobil operatörlerin varsayılan "Güvenli İnternet" filtreleri ile üniversite/kurum ağlarının güvenlik duvarları, yeni oluşturulmuş `.dev` uzantılarını ve sunucusuz (serverless) alt alan adlarını zaman zaman şüpheli bularak DNS seviyesinde çözümleyememekte veya engellemektedir.
 
 **Alınan Mimari Aksiyon:**
-Değerlendirme jürisinin ve son kullanıcıların projeye %100 kesintisiz erişebilmesini garanti altına almak amacıyla, küresel çapta "Beyaz Liste"de (Whitelisted) bulunan ve DNS filtrelerine takılmayan **GitHub Pages** (`.github.io`) altyapısına geçiş yapılmıştır. Cloudflare sunucusu ise yedek (fallback) ortam olarak aktif tutulmaktadır.
+Projenin %100 kesintisiz erişebilmesini garanti altına almak amacıyla, DNS filtrelerine takılmayan **GitHub Pages** (`.github.io`) altyapısına geçiş yapılmıştır. Cloudflare sunucusu ise yedek (fallback) ortam olarak aktif tutulmaktadır.
 
 * 🟢 **Ana Sunucu (GitHub Pages):** [https://rossobia.github.io/THE-STOCK-SENSE-PRO/]
 * 🔵 **Alternatif Sunucu (Cloudflare):** [https://the-stock-sense-pro.pages.dev]
