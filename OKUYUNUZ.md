@@ -4,7 +4,13 @@ Yapay zeka destekli, gerçek zamanlı küresel borsa, kripto ve döviz analiz te
 
 ## 🚀 Canlı Demo Bağlantıları
 
-Proje iki farklı sunucu altyapısında Sürekli Entegrasyon (CI/CD) ile canlıya alınmıştır. Cihazınıza veya ağ ayarlarınıza en uygun linkten projeyi test edebilirsiniz:
+Projenin ilk sürümü **Cloudflare Pages** (`.pages.dev` uzantısı) kullanılarak Sürekli Entegrasyon (CI/CD) hattı ile canlıya alınmıştır. Ancak yapılan saha testlerinde (8 farklı cihaz ve farklı ağlarda) erişilebilirlik oranının %50 seviyelerinde kaldığı tespit edilmiştir. 
+
+**Sorunun Teknik Analizi:**
+Türkiye'deki bazı İnternet Servis Sağlayıcılarının (ISP) ve mobil operatörlerin varsayılan "Güvenli İnternet" filtreleri ile üniversite/kurum ağlarının güvenlik duvarları, yeni oluşturulmuş `.dev` uzantılarını ve sunucusuz (serverless) alt alan adlarını zaman zaman şüpheli bularak DNS seviyesinde çözümleyememekte veya engellemektedir.
+
+**Alınan Mimari Aksiyon:**
+Değerlendirme jürisinin ve son kullanıcıların projeye %100 kesintisiz erişebilmesini garanti altına almak amacıyla, küresel çapta "Beyaz Liste"de (Whitelisted) bulunan ve DNS filtrelerine takılmayan **GitHub Pages** (`.github.io`) altyapısına geçiş yapılmıştır. Cloudflare sunucusu ise yedek (fallback) ortam olarak aktif tutulmaktadır.
 
 * 🟢 **Ana Sunucu (GitHub Pages):** [https://rossobia.github.io/THE-STOCK-SENSE-PRO/]
 * 🔵 **Alternatif Sunucu (Cloudflare):** [https://the-stock-sense-pro.pages.dev]
