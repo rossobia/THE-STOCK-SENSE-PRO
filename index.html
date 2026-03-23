@@ -301,6 +301,20 @@
             /* 7. Grafik boyunu mobilde biraz kısalt */
             #chartContainer { height: 350px; width: 100%; }
         }
+/* --- EKRAN TAŞMASI KESİN ÇÖZÜMÜ --- */
+    html, body {
+        height: auto !important; /* Katı 100vh sınırını kaldır */
+        min-height: 100vh; /* En az ekran kadar ol ama uzayabil */
+        overflow-y: auto !important; /* Farenin tekerleğiyle aşağı kaydırmayı ZORLA AÇ */
+    }
+    
+    .page-wrapper, .container {
+        height: auto !important;
+        min-height: 100vh;
+        box-sizing: border-box; 
+        overflow: visible !important;
+        padding-bottom: 40px !important; /* En alta güvenli yastık */
+    }
     </style>
 </head>
 <body>
@@ -460,7 +474,7 @@
                 </div>
                 <div id="disclaimer" class="disclaimer">
                     ⚠️ <strong>Yasal Uyarı (Eğitim Amaçlı):</strong> Bu uygulamadaki veriler, grafikler ve yapay zeka analizleri sadece finansal okuryazarlığı artırmak içindir. Kesinlikle yatırım tavsiyesi (AL-SAT-TUT) niteliği taşımaz.
-<div style="height: 80px; width: 100%; display: block; clear: both; opacity: 0;"></div>
+
                 </div>
             </div>
         </div>
