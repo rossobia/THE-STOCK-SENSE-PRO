@@ -29,3 +29,12 @@ Projenin %100 kesintisiz erişebilmesini garanti altına almak amacıyla, DNS fi
 * **Canlı Veri:** Küresel endeksler, BİST, Kripto ve Döviz piyasalarının anlık grafik takibi.
 * **AI Destekli Yorumlama:** Aranan varlıkla ilgili son güncel haberlerin taranıp, profesyonel bir finansal analist ağzıyla (Kısa Özet, Temel Analiz, Beklenti ve Senaryolar) raporlanması.
 * **Akıllı Hafıza (Cache):** API kotalarını korumak için Cloudflare Workers üzerinde yazılmış 10 dakikalık cache algoritması.
+
+### 📊 Bilgilendirme: Veri Sağlayıcı ve Grafik Kısıtlamaları
+
+Projenin canlı grafik arayüzünde üçüncü parti finansal widget entegrasyonları (TradingView vb.) kullanılmaktadır. Testler sırasında özellikle **Borsa İstanbul (BİST)** hisselerinde veya bazı spesifik küresel varlıklarda grafiklerin ekrana yansımaması veya "Invalid Symbol" hatası alınması öngörülen bir durumdur.
+
+**Durum Analizi:**
+Bu durum uygulamanın kaynak kodlarından veya mimarisinden kaynaklanan bir hata (bug) **değildir**. Tamamen dış veri sağlayıcıların ücretsiz (Free Tier) paketlerde uyguladığı lisans politikaları, bölgesel borsa kısıtlamaları ve anlık veri kotaları ile ilgilidir. 
+
+Sistem, bu tür dış veri kesintilerini tolere edebilecek şekilde tasarlanmıştır. Herhangi bir grafik API tarafından kısıtlansa ve ekranda yüklenmese dahi, arka plandaki yapay zeka (Gemini) haber okuma ve analiz etme motoru asenkron olarak çalışmaya ve kullanıcıya rapor sunmaya devam edecektir.
